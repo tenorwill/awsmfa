@@ -26,14 +26,11 @@ import (
 
 // Use Fatih Color Package for nice output
 var (
-	cb   = color.New(color.FgCyan).Add(color.Bold)
-	cy   = color.New(color.FgCyan)
-	gb   = color.New(color.FgGreen).Add(color.Bold)
-	ge   = color.New(color.FgGreen)
-	rb   = color.New(color.FgRed).Add(color.Bold)
-	re   = color.New(color.FgRed)
-	yb   = color.New(color.FgYellow).Add(color.Bold)
-	cyan = color.New(color.FgCyan).Add(color.Bold).SprintFunc()
+	cb = color.New(color.FgCyan).Add(color.Bold)
+	gb = color.New(color.FgGreen).Add(color.Bold)
+	ge = color.New(color.FgGreen)
+	rb = color.New(color.FgRed).Add(color.Bold)
+	yb = color.New(color.FgYellow).Add(color.Bold)
 )
 
 // Credentials & Config File Paths
@@ -80,7 +77,6 @@ role_arn = arn:aws:iam::1234567890:role/myrole
 source_profile = default
 mfa_serial = arn:aws:iam::AnotherAccountNumber:mfa/username`)
 	rb.Println(h2lines)
-	return
 }
 
 // Flags: user for get_session_token or default role assumption
@@ -89,7 +85,7 @@ var (
 )
 
 // This extends flags for short forms, custom usage
-func usage() {}
+//func usage() {}
 
 func init() {
 
@@ -121,7 +117,7 @@ func menuInput(userFlag bool) (string, string, string, int32, string) {
 
 	// Assume a role (default) or get session token with -u | --user flag
 	var awsProfile string
-	if userFlag == false {
+	if !userFlag {
 		cb.Print("Enter profile name for role assumption: ")
 		fmt.Print("(\"default\"): ")
 		fmt.Scanln(&awsProfile)
@@ -164,6 +160,9 @@ func menuInput(userFlag bool) (string, string, string, int32, string) {
 	// Validate the input is numeric (int)
 	for {
 		_, err := fmt.Scanln(&strDuration)
+		if err != nil {
+			fmt.Printf("Error: %v", err.Error())
+		}
 		if len(strDuration) == 0 {
 			strDuration = "28800"
 		}
@@ -398,7 +397,7 @@ func main() {
 
 	// Default behaviour without -u | --user flag assumes a role,
 	// print message to screen indicating the function
-	if *userFlag == true {
+	if *userFlag {
 		gb.Println("Using the get_session_token user flag")
 	} else {
 		yb.Println("Not using the user flag - proceeding with role assumption")
@@ -412,7 +411,7 @@ func main() {
 	awsConfigPath = homeDir() + "/.aws/config"
 
 	// Get a Session Token or Assume a Role
-	if *userFlag == true {
+	if *userFlag {
 		getSessionToken(awsCreds, awsRegion, awsProfile, duration, tokenCode)
 	} else {
 		assumeRole(awsCreds, awsRegion, awsProfile, duration, tokenCode)
