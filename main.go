@@ -65,7 +65,7 @@ func h2() {
 	h2text := `
 This script expects the AWS config and credentials
 file to be configured in this example format:`
-	rb.Println(h2lines, h2text, "\n")
+	rb.Println(h2lines, h2text)
 	yb.Println("~/.aws/credentials:")
 	fmt.Println(`[default]
 aws_access_key_id = AKXXXXXXXXXXXXXXXXXXXXX
@@ -79,7 +79,7 @@ mfa_serial = arn:aws:iam::AccountNumber:mfa/username
 role_arn = arn:aws:iam::1234567890:role/myrole
 source_profile = default
 mfa_serial = arn:aws:iam::AnotherAccountNumber:mfa/username`)
-	rb.Println(h2lines, "\n")
+	rb.Println(h2lines)
 	return
 }
 
@@ -98,7 +98,7 @@ func init() {
 	flag.Usage = func() {
 		cb.Println(header(title, date, description))
 		cb.Println(("Usage: ") + os.Args[0])
-		cb.Println("Example: ./awsmfa -u \n")
+		cb.Println("Example: ./awsmfa -u")
 		flagOptions := "-u | --user AWS User (optional - default: none)\n"
 		cb.Println(flagOptions)
 
@@ -187,7 +187,7 @@ func menuInput(userFlag bool) (string, string, string, int32, string) {
 		if err != nil {
 			rb.Print("Please enter a valid token code: ")
 		} else {
-			gb.Println(tokenCode, "\n")
+			gb.Println(tokenCode)
 			break
 		}
 	}
@@ -365,7 +365,7 @@ AWS_SECRET_ACCESS_KEY=%s
 export AWS_SESSION_TOKEN AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY`
 
 		interpolatedEnvVars := fmt.Sprintf(envBashVars, mfaProfile, r.SessionToken, r.AccessKey, r.SecretKey)
-		ge.Println(interpolatedEnvVars, "\n")
+		ge.Println(interpolatedEnvVars)
 
 	case "cmdpwshell":
 		envWinVars := `# Windows Command Prompt:
@@ -380,7 +380,7 @@ $Env:AWS_ACCESS_KEY_ID="%s"
 $Env:AWS_SECRET_ACCESS_KEY="%s"`
 
 		interpolatedEnvVars := fmt.Sprintf(envWinVars, mfaProfile, r.SessionToken, r.AccessKey, r.SecretKey, r.SessionToken, r.AccessKey, r.SecretKey)
-		ge.Println(interpolatedEnvVars, "\n")
+		ge.Println(interpolatedEnvVars)
 	}
 
 	gb.Println("Done!")
