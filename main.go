@@ -155,18 +155,14 @@ func menuInput(userFlag bool) (string, string, string, int32, string) {
 	cb.Print("Enter Duration (s): ")
 	fmt.Print("(\"28800 - 8 hours\"): ")
 	var strDuration string
-	var d int
 	var duration int32
 	// Validate the input is numeric (int)
 	for {
-		_, err := fmt.Scanln(&strDuration)
-		if err != nil {
-			fmt.Printf("Error: %v", err.Error())
-		}
+		fmt.Scanln(&strDuration)
 		if len(strDuration) == 0 {
 			strDuration = "28800"
 		}
-		d, err = strconv.Atoi(strDuration)
+		d, err := strconv.Atoi(strDuration)
 		duration = int32(d)
 		if err != nil {
 			rb.Print("Please enter a valid duration, minimum 900 (s): ")
@@ -381,7 +377,7 @@ $Env:AWS_SECRET_ACCESS_KEY="%s"`
 		interpolatedEnvVars := fmt.Sprintf(envWinVars, mfaProfile, r.SessionToken, r.AccessKey, r.SecretKey, r.SessionToken, r.AccessKey, r.SecretKey)
 		ge.Println(interpolatedEnvVars)
 	}
-
+	gb.Print("\n")
 	gb.Println("Done!")
 }
 
