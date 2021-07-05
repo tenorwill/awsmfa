@@ -9,7 +9,7 @@
 <hr>
 
 ## Summary
-This is a simple program that generates a session token for an AWS IAM user or assumes a role based on profiles. It differs from other similar programs in that it asks for input as you go.
+This is a simple program that generates a session token for an AWS IAM user or assumes a role based on profiles. It differs from other similar programs in that it asks for input as you go. Once the token is generated, it's copied to the credentials file using the ini Go package.
 
 ## Compatibility
 Works on Windows! Thanks to `https://github.com/fatih/color`, coloring is easy to use and works perfectly in Windows, MacOS and Linux
