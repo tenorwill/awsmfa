@@ -10,6 +10,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+  "path"
 	"runtime"
 	"strconv"
 	"strings"
@@ -17,8 +18,6 @@ import (
 
 	"github.com/fatih/color"
 	"gopkg.in/ini.v1"
-
-	homedir "github.com/mitchellh/go-homedir"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
@@ -192,7 +191,7 @@ func menuInput(userFlag bool) (string, string, string, int32, string) {
 
 // Get the home directory location
 func homeDir() string {
-	homeDir, err := homedir.Dir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		fmt.Printf("Unable to get home directory location \nError: %v", err.Error())
 		os.Exit(1)
@@ -402,9 +401,9 @@ func main() {
 	// Run the menu parser, retrieve results
 	awsCreds, awsRegion, awsProfile, duration, tokenCode := menuInput(*userFlag)
 
-	// Use homeDir function to get AWS config and credentials file absolute path
-	awsCredsPath = homeDir() + "/.aws/credentials"
-	awsConfigPath = homeDir() + "/.aws/config"
+  var awsDir = path.Join(homeDir(), ".aws")
+	awsCredsPath = path.Join(awsDir, "credentials")
+	awsConfigPath = path.Join(awsDir, "config")
 
 	// Get a Session Token or Assume a Role
 	if *userFlag {
